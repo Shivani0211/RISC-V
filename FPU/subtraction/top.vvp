@@ -1,0 +1,119 @@
+#! c:/iverilog-x86/bin/vvp
+:ivl_version "10.0 (stable)" "(v10_0)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "system";
+:vpi_module "vhdl_sys";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_010ac508 .scope module, "top" "top" 2 1;
+ .timescale 0 0;
+v010a34f0_0 .var "a", 63 0;
+v010a3548_0 .var/real "a_real", 0 0;
+v010a35a0_0 .var "b", 63 0;
+v010a35f8_0 .var/real "b_real", 0 0;
+v02880130_0 .net "c", 63 0, L_028804a0;  1 drivers
+v028800d8_0 .var/real "c_real", 0 0;
+E_010a9a40 .event edge, v010a4cd0_0;
+E_010a9978 .event edge, v010a35f8_0;
+E_010a9a68 .event edge, v010a3548_0;
+S_010a4ba8 .scope module, "I" "dut" 2 8, 3 1 0, S_010ac508;
+ .timescale 0 0;
+    .port_info 0 /INPUT 64 "a"
+    .port_info 1 /INPUT 64 "b"
+    .port_info 2 /OUTPUT 64 "c"
+v010abb20_0 .net "a", 63 0, v010a34f0_0;  1 drivers
+v010ac5d8_0 .var/real "a_real", 0 0;
+v010ac630_0 .net "b", 63 0, v010a35a0_0;  1 drivers
+v010a4c78_0 .var/real "b_real", 0 0;
+v010a4cd0_0 .net "c", 63 0, L_028804a0;  alias, 1 drivers
+v010a4d28_0 .var/real "c_real", 0 0;
+E_010a99c8 .event edge, v010ac630_0;
+E_010a9ae0 .event edge, v010abb20_0;
+L_028804a0 .sfunc 3 5 "$realtobits", "v64r", v010a4d28_0;
+    .scope S_010a4ba8;
+T_0 ;
+    %wait E_010a9ae0;
+    %vpi_func/r 3 6 "$bitstoreal", v010abb20_0 {0 0 0};
+    %store/real v010ac5d8_0;
+    %jmp T_0;
+    .thread T_0, $push;
+    .scope S_010a4ba8;
+T_1 ;
+    %wait E_010a99c8;
+    %vpi_func/r 3 7 "$bitstoreal", v010ac630_0 {0 0 0};
+    %store/real v010a4c78_0;
+    %jmp T_1;
+    .thread T_1, $push;
+    .scope S_010a4ba8;
+T_2 ;
+    %vpi_call 3 10 "$dut_c", v010ac5d8_0, v010a4c78_0, v010a4d28_0 {0 0 0};
+    %end;
+    .thread T_2;
+    .scope S_010ac508;
+T_3 ;
+    %pushi/real 0, 4065; load=0.00000
+    %store/real v010a35f8_0;
+    %end;
+    .thread T_3;
+    .scope S_010ac508;
+T_4 ;
+    %wait E_010a9a68;
+    %vpi_func 2 10 "$realtobits" 64, v010a3548_0 {0 0 0};
+    %assign/vec4 v010a34f0_0, 0;
+    %jmp T_4;
+    .thread T_4, $push;
+    .scope S_010ac508;
+T_5 ;
+    %wait E_010a9978;
+    %vpi_func 2 11 "$realtobits" 64, v010a35f8_0 {0 0 0};
+    %assign/vec4 v010a35a0_0, 0;
+    %jmp T_5;
+    .thread T_5, $push;
+    .scope S_010ac508;
+T_6 ;
+    %wait E_010a9a40;
+    %vpi_func/r 2 12 "$bitstoreal", v02880130_0 {0 0 0};
+    %assign/wr v028800d8_0, 0;
+    %jmp T_6;
+    .thread T_6, $push;
+    .scope S_010ac508;
+T_7 ;
+    %pushi/real 1374389534, 4059; load=0.0100000
+    %pushi/real 3019899, 4037; load=0.0100000
+    %add/wr;
+    %assign/wr v010a3548_0, 0;
+    %pushi/real 1374389534, 4060; load=0.0200000
+    %pushi/real 3019899, 4038; load=0.0200000
+    %add/wr;
+    %assign/wr v010a35f8_0, 0;
+    %delay 5, 0;
+    %pushi/real 1374389534, 4060; load=0.0200000
+    %pushi/real 3019899, 4038; load=0.0200000
+    %add/wr;
+    %assign/wr v010a3548_0, 0;
+    %pushi/real 2061584302, 4060; load=0.0300000
+    %pushi/real 335544, 4038; load=0.0300000
+    %add/wr;
+    %assign/wr v010a35f8_0, 0;
+    %delay 10, 0;
+    %vpi_call 2 22 "$finish" {0 0 0};
+    %end;
+    .thread T_7;
+    .scope S_010ac508;
+T_8 ;
+    %wait E_010a9a40;
+    %delay 5, 0;
+    %vpi_call 2 28 "$display", "Input a = %b, b = %b, Output c = %b\012", v010a34f0_0, v010a35a0_0, v02880130_0 {0 0 0};
+    %vpi_call 2 29 "$display", "Input a_real = %f, b_real = %f, Output c_real = %f\012", v010a3548_0, v010a35f8_0, v028800d8_0 {0 0 0};
+    %delay 5, 0;
+    %vpi_call 2 31 "$display", "Input a = %b, b = %b, Output c = %b\012", v010a34f0_0, v010a35a0_0, v02880130_0 {0 0 0};
+    %vpi_call 2 32 "$display", "Input a_real = %f, b_real = %f, Output c_real = %f\012", v010a3548_0, v010a35f8_0, v028800d8_0 {0 0 0};
+    %jmp T_8;
+    .thread T_8, $push;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "top.v";
+    "dut.v";
